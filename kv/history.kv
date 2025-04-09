@@ -1,0 +1,43 @@
+#:kivy 2.0.0
+
+<HistoryScreen>:
+    name: "history"
+    BoxLayout:
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgba: app.background_color
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # --- 1. Title Bar (Optional - can be a Label or more complex) ---
+        BoxLayout:
+            size_hint_y: None
+            height: dp(50)
+            padding: dp(10)
+            Label:
+                text: "History"
+                font_size: '20sp'
+                color: app.text_color
+                halign: 'left'
+                valign: 'middle'
+
+        # --- 2. Scrollable Area for History Items ---
+        ScrollView:
+            BoxLayout:
+                id: history_layout  # This ID should match the BoxLayout in history.py
+                orientation: 'vertical'
+                size_hint_y: None
+                spacing: dp(10)
+                padding: dp(10)
+                # minimum_height will be bound in Python
+
+        # --- 3. Navigation Button ---
+        Button:
+            text: "🏠 Home"
+            size_hint_y: None
+            height: dp(50)
+            background_color: app.button_color
+            color: app.button_text_color
+            on_press: root.go_home()

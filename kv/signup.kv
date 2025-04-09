@@ -1,0 +1,80 @@
+#:kivy 2.0.0
+
+<SignupScreen>:
+    name: "signup"
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(20)
+        canvas.before:
+            Color:
+                rgba: app.background_color
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: "Welcome to Flick!"
+            color: app.text_color
+            font_size: '24sp'
+            bold: True
+            size_hint_y: None
+            height: dp(40)
+            halign: 'center'
+
+        TextInput:
+            id: email_input
+            hint_text: "Email"
+            multiline: False
+            size_hint_y: None
+            height: dp(45)
+            foreground_color: app.text_color
+            background_color: app.input_bg_color
+            hint_text_color: app.subtext_color
+            padding: dp(10)
+            cursor_color: app.text_color
+
+        TextInput:
+            id: password_input
+            hint_text: "Password"
+            multiline: False
+            password: True
+            size_hint_y: None
+            height: dp(45)
+            foreground_color: app.text_color
+            background_color: app.input_bg_color
+            hint_text_color: app.subtext_color
+            padding: dp(10)
+            cursor_color: app.text_color
+
+        Button:
+            text: "Sign Up"
+            size_hint_y: None
+            height: dp(45)
+            background_color: app.button_color
+            color: app.button_text_color
+            on_release: app.sign_up(email=email_input.text, password=password_input.text)
+
+        Label:
+            text: "or continue with"
+            color: app.subtext_color
+            size_hint_y: None
+            height: dp(20)
+            halign: 'center'
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(45)
+            spacing: dp(15)
+
+            Button:
+                text: "Google"
+                background_color: app.button_color  # Assuming you want to theme these as regular buttons
+                color: app.button_text_color
+                on_release: app.sign_in_with_google()
+
+            Button:
+                text: "Apple"
+                background_color: app.button_color  # Assuming you want to theme these as regular buttons
+                color: app.button_text_color
+                on_release: app.sign_in_with_apple()

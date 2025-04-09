@@ -1,0 +1,132 @@
+#:kivy 2.0.0
+
+<MovieCard>:
+    orientation: 'vertical'
+    padding: dp(10)
+    spacing: dp(10)
+
+    AsyncImage:
+        id: poster
+        source: ''
+        size_hint: 1, 0.7
+        allow_stretch: True
+        keep_ratio: True
+        error_image: "assets/placeholder.png"
+
+    Label:
+        id: title
+        text: 'Movie Title'
+        bold: True
+        size_hint_y: 0.15
+        halign: 'center'
+        valign: 'middle'
+        text_size: self.width, None
+
+    Label:
+        id: overview
+        text: 'Movie Overview...'
+        size_hint_y: 0.15
+        font_size: '12sp'
+        halign: 'left'
+        valign: 'top'
+        text_size: self.width, None
+
+<HomeScreen>:
+    name: "home"
+    BoxLayout:
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgba: app.background_color
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # --- 1. Tabs for Navigation ---
+        BoxLayout:
+            size_hint_y: None
+            height: dp(50)
+            spacing: dp(10)
+            padding: dp(10)
+
+            ToggleButton:
+                id: fav_tab
+                text: "Favorites"
+                group: "home_tabs"
+                state: "down"
+                background_color: app.button_color
+                color: app.button_text_color
+                on_state: if self.state == 'down': root.go_to_favorites()
+
+            ToggleButton:
+                id: hist_tab
+                text: "History"
+                group: "home_tabs"
+                background_color: app.button_color
+                color: app.button_text_color
+                on_state: if self.state == 'down': root.go_to_history()
+
+            ToggleButton:
+                id: follow_tab
+                text: "Following"
+                group: "home_tabs"
+                background_color: app.button_color
+                color: app.button_text_color
+                on_state: if self.state == 'down': root.go_to_following()
+
+        # --- 2. Movie Card Display Area ---
+        FloatLayout:
+            id: card_container
+
+            # The MovieCard will be dynamically added here in Python
+            # This BoxLayout is just a visual placeholder in the KV
+            BoxLayout:
+                id: movie_card_placeholder
+                size_hint: None, None
+                size: dp(300), dp(420)
+                pos_hint: {"center_x": 0.5, "center_y": 0.6}
+                canvas.before:
+                    Color:
+                        rgba: app.card_bg_color
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10]
+
+                Label:
+                    text: "Loading Movie..."
+                    color: app.text_color
+                    halign: 'center'
+                    valign: 'middle'
+
+        # --- 3. Like/Dislike Buttons ---
+        BoxLayout:
+            size_hint_y: None
+            height: dp(80)
+            padding: dp(10)
+            spacing: dp(20)
+            pos_hint: {"center_x": 0.5}
+            orientation: "horizontal"
+
+            Button:
+                text: "Dislike 💔"
+                background_color: app.disliked_color
+                color: app.button_text_color
+                on_release: root.swipe_left()
+
+            Button:
+                text: "Like ❤️"
+                background_color: app.liked_color
+                color: app.button_text_color
+                on_release: root.swipe_right()
+
+        # --- 4. Theme Toggle (Optional - can be moved elsewhere) ---
+        BoxLayout:
+            size_hint_y: None
+            height: dp(50)
+            padding: dp(10)
+            Button:
+                text: "Toggle Theme"
+                background_color: app.button_color
+                color: app.button_text_color
+                on_release: app.toggle_theme()
